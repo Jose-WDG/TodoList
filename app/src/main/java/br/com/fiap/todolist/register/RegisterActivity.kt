@@ -1,10 +1,14 @@
 package br.com.fiap.todolist.register
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.SnapHelper
 import br.com.fiap.todolist.databinding.ActivityRegisterBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -31,31 +35,50 @@ class RegisterActivity : AppCompatActivity() {
     private fun initObserver() {
         viewModel.result.observe(this, Observer {
             when (it) {
-                is RegisterViewModel.RegisterState.Loading -> {
-                    Log.d("TESTE","Carregando...")
-                }
+                is RegisterViewModel.RegisterState.Loading -> loading(true)
                 is RegisterViewModel.RegisterState.Sucess -> {
-                    Snackbar.make(
-                        this@RegisterActivity,
-                        binding.root.rootView,
-                        "Usuário cadastrado com sucesso!",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    loading(false)
+                    val color = ContextCompat.getColor(this,android.R.color.holo_green_light)
+                    buildSnackBar(color,"Usuário cadastrado com sucesso!")
                 }
-
                 is RegisterViewModel.RegisterState.Error -> {
-                    Snackbar.make(
-                        this@RegisterActivity,
-                        binding.root.rootView,
-                        it.message,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
+                    loading(false)
+                    val color = ContextCompat.getColor(this,android.R.color.holo_red_light)
+                    buildSnackBar(color,it.message)
                 }
                 else -> {
-                    Log.d("TESTE","Error Inesperado.")
+                    loading(false)
+                    Log.e("TodoList","Error Inesperado.")
                 }
             }
         })
+    }
+    private fun buildSnackBar(color: Int, msg: String){
+        Snackbar.make(
+            this@RegisterActivity,
+            binding.root.rootView,
+            msg,
+            Snackbar.LENGTH_SHORT
+        ).setBackgroundTint(color).show()
+    }
+    private fun loading(isLoading: Boolean){
+        binding.btnRegister.makeInVisible(isLoading)
+        binding.loading.makeVisible(isLoading)
+    }
+}
+
+fun View.makeInVisible(makeVisible: Boolean){
+    visibility = if (makeVisible){
+        View.INVISIBLE
+    }else{
+        View.VISIBLE
+    }
+}
+
+fun View.makeVisible(makeVisible: Boolean){
+    visibility = if (makeVisible){
+        View.VISIBLE
+    }else{
+        View.GONE
     }
 }

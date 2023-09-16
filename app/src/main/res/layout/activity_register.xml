@@ -43,6 +43,7 @@
         android:hint="Senha"
         app:layout_constraintTop_toBottomOf="@id/layout_email"
         app:layout_constraintStart_toStartOf="parent"
+        app:helperText="A Senha deve ter entre 6-20 caracteres, incluir uma letra maiúscula, uma letra minúscula e um número."
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -75,8 +76,22 @@
         android:layout_height="wrap_content"
         android:text="Cadastrar"
         android:layout_marginTop="16dp"
+        tools:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/layout_confirm_password"
         app:layout_constraintStart_toStartOf="@+id/layout_confirm_password"
         app:layout_constraintTop_toBottomOf="@+id/layout_confirm_password" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/btn_register"
+        app:layout_constraintEnd_toEndOf="@id/btn_register"
+        app:layout_constraintStart_toStartOf="@id/btn_register"
+        app:layout_constraintBottom_toBottomOf="@id/btn_register"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:indeterminate="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
