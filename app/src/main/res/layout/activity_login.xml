@@ -69,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Entrar"
+        tools:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/layout_input_senha"
         app:layout_constraintStart_toStartOf="@+id/layout_input_senha"
         app:layout_constraintTop_toBottomOf="@+id/layout_input_senha" />
@@ -84,5 +85,17 @@
         app:layout_constraintEnd_toEndOf="@+id/btn_login"
         app:layout_constraintStart_toStartOf="@+id/btn_login"
         app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/btn_login"
+        app:layout_constraintEnd_toEndOf="@id/btn_login"
+        app:layout_constraintStart_toStartOf="@id/btn_login"
+        app:layout_constraintBottom_toBottomOf="@id/btn_login"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:indeterminate="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

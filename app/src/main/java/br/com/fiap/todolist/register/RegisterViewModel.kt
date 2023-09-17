@@ -1,9 +1,10 @@
 package br.com.fiap.todolist.register
 
-import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.utils.ValidateUtils
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
 class RegisterViewModel : BaseViewModel() {
@@ -27,7 +28,9 @@ class RegisterViewModel : BaseViewModel() {
         try {
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    result.postValue(RegisterState.Sucess(true))
+                    it.result.user?.let {user ->
+                        result.postValue(RegisterState.Sucess(user))
+                    }
                 } else {
                     result.postValue(RegisterState.Error(it.exception?.message.toString()))
                 }
@@ -37,8 +40,21 @@ class RegisterViewModel : BaseViewModel() {
         }
     }
 
+
+    private fun isFieldsValid(
+        email: String,
+        password: String,
+        confirmPassword: String
+    ): Boolean {
+        if (email.isEmpty() || password.isEmpty() && confirmPassword.isEmpty()) {
+            result.postValue(RegisterViewModel.RegisterState.Error("Preencha todos os campos!"))
+            return true
+        }
+        return false
+    }
+
     private fun isEmailValid(email: String): Boolean {
-        if (!isValidEmail(email)) {
+        if (!ValidateUtils.isValidEmail(email)) {
             result.postValue(RegisterState.Error("E-mail inválido."))
             return true
         }
@@ -46,7 +62,7 @@ class RegisterViewModel : BaseViewModel() {
     }
 
     private fun isPasswordValid(password: String): Boolean {
-        if (!isValidPassword(password)) {
+        if (!ValidateUtils.isValidPassword(password)) {
             result.postValue(
                 RegisterState.Error(
                     "Senha inválida. Deve ter entre 6-20 caracteres, " +
@@ -66,37 +82,9 @@ class RegisterViewModel : BaseViewModel() {
         return false
     }
 
-    private fun isFieldsValid(
-        email: String,
-        password: String,
-        confirmPassword: String
-    ): Boolean {
-        if (email.isEmpty() || password.isEmpty() && confirmPassword.isEmpty()) {
-            result.postValue(RegisterState.Error("Preencha todos os campos!"))
-            return true
-        }
-        return false
-    }
-
-    fun isValidPassword(password: String): Boolean {
-        if (password.length < 6 || password.length > 20) {
-            return false
-        }
-        if (!password.any { it.isUpperCase() } ||
-            !password.any { it.isLowerCase() } ||
-            !password.any { it.isDigit() }) {
-            return false
-        }
-        return true
-    }
-
-
-    private fun isValidEmail(email: String) =
-        email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
     sealed class RegisterState {
         object Loading : RegisterState()
-        data class Sucess(val singIn: Boolean) : RegisterState()
+        data class Sucess(val user: FirebaseUser) : RegisterState()
         data class Error(val message: String) : RegisterState()
     }
 }

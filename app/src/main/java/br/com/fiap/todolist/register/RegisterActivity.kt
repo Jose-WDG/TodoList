@@ -1,18 +1,13 @@
 package br.com.fiap.todolist.register
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.SnapHelper
+import br.com.fiap.todolist.BaseActivity
 import br.com.fiap.todolist.databinding.ActivityRegisterBinding
-import com.google.android.material.snackbar.Snackbar
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private val viewModel: RegisterViewModel by viewModels()
 
@@ -33,34 +28,27 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initObserver() {
-        viewModel.result.observe(this, Observer {
+        viewModel.result.observe(this) {
             when (it) {
                 is RegisterViewModel.RegisterState.Loading -> loading(true)
                 is RegisterViewModel.RegisterState.Sucess -> {
                     loading(false)
-                    val color = ContextCompat.getColor(this,android.R.color.holo_green_light)
-                    buildSnackBar(color,"Usuário cadastrado com sucesso!")
+                    buildSucessSnackBar("Usuário cadastrado com sucesso!", binding.root.rootView)
                 }
+
                 is RegisterViewModel.RegisterState.Error -> {
                     loading(false)
-                    val color = ContextCompat.getColor(this,android.R.color.holo_red_light)
-                    buildSnackBar(color,it.message)
+                    buildErrorSnackBar(it.message, binding.root.rootView)
                 }
+
                 else -> {
                     loading(false)
-                    Log.e("TodoList","Error Inesperado.")
+                    Log.e("TodoList", "Error Inesperado.")
                 }
             }
-        })
+        }
     }
-    private fun buildSnackBar(color: Int, msg: String){
-        Snackbar.make(
-            this@RegisterActivity,
-            binding.root.rootView,
-            msg,
-            Snackbar.LENGTH_SHORT
-        ).setBackgroundTint(color).show()
-    }
+
     private fun loading(isLoading: Boolean){
         binding.btnRegister.makeInVisible(isLoading)
         binding.loading.makeVisible(isLoading)
