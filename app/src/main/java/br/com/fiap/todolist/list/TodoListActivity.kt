@@ -2,18 +2,40 @@ package br.com.fiap.todolist.list
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import br.com.fiap.todolist.BaseActivity
+import br.com.fiap.todolist.BaseViewModel
 import br.com.fiap.todolist.databinding.ActivityTodoListBinding
 import br.com.fiap.todolist.login.LoginActivity
 
 class TodoListActivity : BaseActivity() {
     private lateinit var binding: ActivityTodoListBinding
+    private val viewModel: TodoListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTodoListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initObsrever()
+    }
 
+    private fun initObsrever() {
+        viewModel.result.observe(this){
+            when(it){
+                is BaseViewModel.BaseState.Loading -> {
+
+                }
+
+                is BaseViewModel.BaseState.Sucess -> {
+
+                }
+
+                is BaseViewModel.BaseState.Error -> {
+
+                }
+                else -> {}
+            }
+        }
     }
 
     override fun onBackPressed() {

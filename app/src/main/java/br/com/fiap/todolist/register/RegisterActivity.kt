@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import br.com.fiap.todolist.BaseActivity
+import br.com.fiap.todolist.BaseViewModel
 import br.com.fiap.todolist.databinding.ActivityRegisterBinding
 
 class RegisterActivity : BaseActivity() {
@@ -30,13 +31,13 @@ class RegisterActivity : BaseActivity() {
     private fun initObserver() {
         viewModel.result.observe(this) {
             when (it) {
-                is RegisterViewModel.RegisterState.Loading -> loading(true)
-                is RegisterViewModel.RegisterState.Sucess -> {
+                is BaseViewModel.BaseState.Loading -> loading(true)
+                is BaseViewModel.BaseState.Sucess -> {
                     loading(false)
                     buildSucessSnackBar("Usuário cadastrado com sucesso!", binding.root.rootView)
                 }
 
-                is RegisterViewModel.RegisterState.Error -> {
+                is BaseViewModel.BaseState.Error -> {
                     loading(false)
                     buildErrorSnackBar(it.message, binding.root.rootView)
                 }

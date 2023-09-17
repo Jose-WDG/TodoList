@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import br.com.fiap.todolist.BaseActivity
+import br.com.fiap.todolist.BaseViewModel
 import br.com.fiap.todolist.databinding.ActivityLoginBinding
 import br.com.fiap.todolist.list.TodoListActivity
 import br.com.fiap.todolist.register.RegisterActivity
@@ -45,14 +46,14 @@ class LoginActivity : BaseActivity() {
     private fun initObserver() {
         viewModel.result.observe(this) {
             when (it) {
-                is LoginViewModel.LoginState.Loading -> loading(true)
+                is BaseViewModel.BaseState.Loading -> loading(true)
 
-                is LoginViewModel.LoginState.Sucess -> {
+                is BaseViewModel.BaseState.Sucess -> {
                     hasCurrentUser()
                     finish()
                 }
 
-                is LoginViewModel.LoginState.Error -> {
+                is BaseViewModel.BaseState.Error -> {
                     loading(false)
                     buildErrorSnackBar(it.message, binding.root.rootView)
                 }
