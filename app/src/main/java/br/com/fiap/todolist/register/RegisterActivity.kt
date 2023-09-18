@@ -2,11 +2,12 @@ package br.com.fiap.todolist.register
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
 import br.com.fiap.todolist.BaseActivity
 import br.com.fiap.todolist.BaseViewModel
 import br.com.fiap.todolist.databinding.ActivityRegisterBinding
+import br.com.fiap.todolist.utils.makeInVisible
+import br.com.fiap.todolist.utils.makeVisible
 
 class RegisterActivity : BaseActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -53,21 +54,5 @@ class RegisterActivity : BaseActivity() {
     private fun loading(isLoading: Boolean){
         binding.btnRegister.makeInVisible(isLoading)
         binding.loading.makeVisible(isLoading)
-    }
-}
-
-fun View.makeInVisible(makeVisible: Boolean){
-    visibility = if (makeVisible){
-        View.INVISIBLE
-    }else{
-        View.VISIBLE
-    }
-}
-
-fun View.makeVisible(makeVisible: Boolean){
-    visibility = if (makeVisible){
-        View.VISIBLE
-    }else{
-        View.GONE
     }
 }

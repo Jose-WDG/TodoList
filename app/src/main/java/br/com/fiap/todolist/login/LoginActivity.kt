@@ -6,16 +6,17 @@ import android.util.Log
 import androidx.activity.viewModels
 import br.com.fiap.todolist.BaseActivity
 import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.data.UserPreferences
 import br.com.fiap.todolist.databinding.ActivityLoginBinding
 import br.com.fiap.todolist.list.TodoListActivity
 import br.com.fiap.todolist.register.RegisterActivity
-import br.com.fiap.todolist.register.makeInVisible
-import br.com.fiap.todolist.register.makeVisible
+import br.com.fiap.todolist.utils.makeInVisible
+import br.com.fiap.todolist.utils.makeVisible
 
 class LoginActivity : BaseActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val viewModel: LoginViewModel by viewModels()
-
+    private val sharedPreferences by lazy { UserPreferences(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -41,6 +42,14 @@ class LoginActivity : BaseActivity() {
         viewModel.getCurrentUser()?.let {
             startActivity(Intent(this, TodoListActivity::class.java))
         }
+
+        val currentEmail = sharedPreferences.getValue(UserPreferences.EMAIL_KEY)
+        val currentPassword = sharedPreferences.getValue(UserPreferences.PASSWORD_KEY)
+
+        if (currentEmail.isNotEmpty() && currentPassword.isNotEmpty()){
+            binding.inputEmail.setText(currentEmail)
+            binding.inputSenha.setText(currentPassword)
+        }
     }
 
     private fun initObserver() {
@@ -50,6 +59,7 @@ class LoginActivity : BaseActivity() {
 
                 is BaseViewModel.BaseState.Sucess -> {
                     hasCurrentUser()
+                    saveUser()
                     finish()
                 }
 
@@ -68,6 +78,13 @@ class LoginActivity : BaseActivity() {
         }
     }
 
+    private fun saveUser(){
+        val email = binding.inputEmail.text.toString()
+        val password = binding.inputSenha.text.toString()
+
+        sharedPreferences.setValue(UserPreferences.EMAIL_KEY,email)
+        sharedPreferences.setValue(UserPreferences.PASSWORD_KEY,password)
+    }
     private fun loading(isLoading: Boolean) {
         binding.btnLogin.makeInVisible(isLoading)
         binding.btnContextualCadastrar.isClickable = !isLoading
