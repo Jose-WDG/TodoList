@@ -3,9 +3,12 @@ package br.com.fiap.todolist.list
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.fiap.todolist.BaseActivity
 import br.com.fiap.todolist.BaseViewModel
 import br.com.fiap.todolist.databinding.ActivityTodoListBinding
+import br.com.fiap.todolist.list.adapter.TodoListAdapter
+import br.com.fiap.todolist.list.model.TodoListModel
 import br.com.fiap.todolist.login.LoginActivity
 
 class TodoListActivity : BaseActivity() {
@@ -17,6 +20,11 @@ class TodoListActivity : BaseActivity() {
         binding = ActivityTodoListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initObsrever()
+
+        binding.todoListRecyclerview.apply {
+            adapter = TodoListAdapter(viewModel.getTodoList())
+            layoutManager = LinearLayoutManager(this@TodoListActivity)
+        }
     }
 
     private fun initObsrever() {

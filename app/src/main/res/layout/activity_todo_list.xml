@@ -19,7 +19,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/size_16_dp"
         android:src="@android:drawable/ic_input_add"
         app:maxImageSize="@android:dimen/app_icon_size"
         app:layout_constraintBottom_toBottomOf="parent"
