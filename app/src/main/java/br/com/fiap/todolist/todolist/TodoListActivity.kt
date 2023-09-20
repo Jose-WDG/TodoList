@@ -12,12 +12,13 @@ import br.com.fiap.todolist.databinding.ActivityTodoListBinding
 import br.com.fiap.todolist.login.LoginActivity
 import br.com.fiap.todolist.registernote.RegisterNoteActivity
 import br.com.fiap.todolist.todolist.adapter.TodoListAdapter
+import br.com.fiap.todolist.utils.makeVisible
 
 class TodoListActivity : BaseActivity() {
     private lateinit var binding: ActivityTodoListBinding
     private val viewModel: TodoListViewModel by viewModels()
     private val todoListAdapter = TodoListAdapter(arrayListOf())
-    private val onActivityResultLauncher: ActivityResultLauncher<Intent> by lazy { initOnActivityResult() }
+    private val onActivityResultLauncher: ActivityResultLauncher<Intent> = initOnActivityResult()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,11 @@ class TodoListActivity : BaseActivity() {
         initObsrever()
         initBindings()
         viewModel.getTodoList()
+    }
+
+    private fun isLoading(isLoading: Boolean){
+        binding.todoListRecyclerview.makeVisible(!isLoading)
+        binding.loading.makeVisible(isLoading)
     }
 
     private fun initBindings() {
@@ -53,10 +59,9 @@ class TodoListActivity : BaseActivity() {
 
     private fun initObsrever() {
         viewModel.todoListState.observe(this) {
+            isLoading(false)
             when (it) {
-                is TodoListViewModel.TodoListState.Loading -> {
-
-                }
+                is TodoListViewModel.TodoListState.Loading -> isLoading(true)
 
                 is TodoListViewModel.TodoListState.OnDataChange -> {
                     todoListAdapter.updateListItems(it.todoList)

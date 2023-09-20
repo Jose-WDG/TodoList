@@ -17,6 +17,7 @@ class TodoListViewModel : BaseViewModel() {
     val todoListState = MutableLiveData<TodoListState>()
 
     fun getTodoList() {
+        todoListState.postValue(TodoListState.Loading)
         val dataBaseRef = dataBase.child(Constantes.DATA_BASE_NAME).child(userId!!)
         dataBaseRef.addListenerForSingleValueEvent(
             TodoListValueEventListener(
