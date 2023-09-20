@@ -1,4 +1,4 @@
-package br.com.fiap.todolist.data
+package br.com.fiap.todolist.data.local
 
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences

@@ -6,9 +6,9 @@ import android.util.Log
 import androidx.activity.viewModels
 import br.com.fiap.todolist.BaseActivity
 import br.com.fiap.todolist.BaseViewModel
-import br.com.fiap.todolist.data.UserPreferences
+import br.com.fiap.todolist.data.local.UserPreferences
 import br.com.fiap.todolist.databinding.ActivityLoginBinding
-import br.com.fiap.todolist.list.TodoListActivity
+import br.com.fiap.todolist.todolist.TodoListActivity
 import br.com.fiap.todolist.register.RegisterActivity
 import br.com.fiap.todolist.utils.makeInVisible
 import br.com.fiap.todolist.utils.makeVisible
@@ -58,8 +58,8 @@ class LoginActivity : BaseActivity() {
                 is BaseViewModel.BaseState.Loading -> loading(true)
 
                 is BaseViewModel.BaseState.Sucess -> {
-                    hasCurrentUser()
                     saveUser()
+                    hasCurrentUser()
                     finish()
                 }
 

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TodoList</string>
+    <string name="new_note_title">Nova nota</string>
+    <string name="title_note">Título da nota</string>
+    <string name="body_note">Anotação</string>
+    <string name="btn_register_note">Registrar</string>
 </resources>

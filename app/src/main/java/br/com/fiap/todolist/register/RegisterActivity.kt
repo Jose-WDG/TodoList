@@ -31,27 +31,25 @@ class RegisterActivity : BaseActivity() {
 
     private fun initObserver() {
         viewModel.result.observe(this) {
+            loading(false)
             when (it) {
                 is BaseViewModel.BaseState.Loading -> loading(true)
-                is BaseViewModel.BaseState.Sucess -> {
-                    loading(false)
-                    buildSucessSnackBar("Usuário cadastrado com sucesso!", binding.root.rootView)
-                }
+                is BaseViewModel.BaseState.Sucess -> buildSucessSnackBar(
+                    "Usuário cadastrado com sucesso!",
+                    binding.root.rootView
+                )
 
-                is BaseViewModel.BaseState.Error -> {
-                    loading(false)
-                    buildErrorSnackBar(it.message, binding.root.rootView)
-                }
+                is BaseViewModel.BaseState.Error -> buildErrorSnackBar(
+                    it.message,
+                    binding.root.rootView
+                )
 
-                else -> {
-                    loading(false)
-                    Log.e("TodoList", "Error Inesperado.")
-                }
+                else -> buildErrorSnackBar("Erro inesperado!", binding.root.rootView)
             }
         }
     }
 
-    private fun loading(isLoading: Boolean){
+    private fun loading(isLoading: Boolean) {
         binding.btnRegister.makeInVisible(isLoading)
         binding.loading.makeVisible(isLoading)
     }

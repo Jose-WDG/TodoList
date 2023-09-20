@@ -16,9 +16,7 @@ class RegisterViewModel : BaseViewModel() {
         if (isPasswordValid(password)) return
         if (isEmailValid(email)) return
 
-        launch {
-            register(email, password)
-        }
+        register(email, password)
     }
 
     private fun register(email: String, password: String) {

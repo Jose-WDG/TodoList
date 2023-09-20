@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".TodoListApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,10 +16,13 @@
         android:theme="@style/Theme.TodoList"
         tools:targetApi="31">
         <activity
+            android:name=".registernote.RegisterNoteActivity"
+            android:exported="false" />
+        <activity
             android:name=".register.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".list.TodoListActivity"
+            android:name=".todolist.TodoListActivity"
             android:exported="false" />
         <activity
             android:name=".login.LoginActivity"
