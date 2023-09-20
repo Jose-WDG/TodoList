@@ -2,33 +2,22 @@ package br.com.fiap.todolist.todolist
 
 import androidx.lifecycle.MutableLiveData
 import br.com.fiap.todolist.BaseViewModel
-import br.com.fiap.todolist.data.local.Constantes
+import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.todolist.model.TodoListModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class TodoListViewModel : BaseViewModel() {
-    private val dataBase = FirebaseDatabase.getInstance(Constantes.DATA_BASE_URL).reference
-    private val userId = FirebaseAuth.getInstance().currentUser?.uid
-    private val todoList: ArrayList<TodoListModel> = arrayListOf()
     val todoListState = MutableLiveData<TodoListState>()
+    private val repository: FirebaseRepository = FirebaseRepository(TodoListValueEventListener(todoListState))
 
     fun getTodoList() {
         todoListState.postValue(TodoListState.Loading)
-        val dataBaseRef = dataBase.child(Constantes.DATA_BASE_NAME).child(userId!!)
-        dataBaseRef.addListenerForSingleValueEvent(
-            TodoListValueEventListener(
-                todoList,
-                todoListState
-            )
-        )
+        repository.requestTodoList()
     }
 
     class TodoListValueEventListener(
-        private val currentTodoList: ArrayList<TodoListModel>,
         private val todoListState: MutableLiveData<TodoListState>
     ) : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -40,22 +29,16 @@ class TodoListViewModel : BaseViewModel() {
                     todoList.add(it)
                 }
             }
-
-            if (todoList != currentTodoList) {
-                currentTodoList.clear()
-                currentTodoList.addAll(todoList)
-                todoListState.postValue(
-                    TodoListState.OnDataChange(
-                        todoList
-                    )
+            todoListState.postValue(
+                TodoListState.OnDataChange(
+                    todoList
                 )
-            }
+            )
         }
 
         override fun onCancelled(error: DatabaseError) {
             todoListState.postValue(TodoListState.OnCancelled(error.message))
         }
-
     }
 
     sealed class TodoListState {
