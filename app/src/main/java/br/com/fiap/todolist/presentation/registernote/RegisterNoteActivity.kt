@@ -1,4 +1,4 @@
-package br.com.fiap.todolist.registernote
+package br.com.fiap.todolist.presentation.registernote
 
 import android.content.Context
 import android.content.Intent
@@ -6,14 +6,14 @@ import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.fiap.todolist.BaseActivity
-import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.presentation.BaseActivity
+import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityRegisterTodoListBinding
-import br.com.fiap.todolist.todolist.model.TodoListModel
-import br.com.fiap.todolist.utils.BgColor
-import br.com.fiap.todolist.utils.makeInVisible
-import br.com.fiap.todolist.utils.makeVisible
+import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
+import br.com.fiap.todolist.presentation.utils.BgColor
+import br.com.fiap.todolist.presentation.utils.makeInVisible
+import br.com.fiap.todolist.presentation.utils.makeVisible
 
 class RegisterNoteActivity : BaseActivity() {
     private lateinit var binding: ActivityRegisterTodoListBinding

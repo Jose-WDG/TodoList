@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/size_8_dp"
-    tools:context=".registernote.RegisterNoteActivity">
+    tools:context=".presentation.registernote.RegisterNoteActivity">
 
     <TextView
         android:id="@+id/register_title"

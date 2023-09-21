@@ -1,19 +1,19 @@
-package br.com.fiap.todolist.login
+package br.com.fiap.todolist.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.fiap.todolist.BaseActivity
-import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.presentation.BaseActivity
+import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.local.UserPreferences
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityLoginBinding
-import br.com.fiap.todolist.register.RegisterActivity
-import br.com.fiap.todolist.todolist.TodoListActivity
-import br.com.fiap.todolist.utils.makeInVisible
-import br.com.fiap.todolist.utils.makeVisible
+import br.com.fiap.todolist.presentation.register.RegisterActivity
+import br.com.fiap.todolist.presentation.todolist.TodoListActivity
+import br.com.fiap.todolist.presentation.utils.makeInVisible
+import br.com.fiap.todolist.presentation.utils.makeVisible
 
 class LoginActivity : BaseActivity() {
     private lateinit var binding: ActivityLoginBinding

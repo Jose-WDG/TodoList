@@ -1,14 +1,14 @@
-package br.com.fiap.todolist.register
+package br.com.fiap.todolist.presentation.register
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.fiap.todolist.BaseActivity
-import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.presentation.BaseActivity
+import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityRegisterBinding
-import br.com.fiap.todolist.utils.makeInVisible
-import br.com.fiap.todolist.utils.makeVisible
+import br.com.fiap.todolist.presentation.utils.makeInVisible
+import br.com.fiap.todolist.presentation.utils.makeVisible
 
 class RegisterActivity : BaseActivity() {
     private lateinit var binding: ActivityRegisterBinding

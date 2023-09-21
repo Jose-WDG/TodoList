@@ -1,7 +1,7 @@
 package br.com.fiap.todolist.data.remote
 
 import br.com.fiap.todolist.data.local.Constantes
-import br.com.fiap.todolist.todolist.model.TodoListModel
+import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

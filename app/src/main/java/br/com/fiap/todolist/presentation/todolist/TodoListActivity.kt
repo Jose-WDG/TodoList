@@ -1,23 +1,22 @@
-package br.com.fiap.todolist.todolist
+package br.com.fiap.todolist.presentation.todolist
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.com.fiap.todolist.BaseActivity
+import br.com.fiap.todolist.presentation.BaseActivity
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityTodoListBinding
-import br.com.fiap.todolist.login.LoginActivity
-import br.com.fiap.todolist.registernote.RegisterNoteActivity
-import br.com.fiap.todolist.todolist.adapter.TodoListAdapter
-import br.com.fiap.todolist.todolist.model.TodoListModel
-import br.com.fiap.todolist.utils.makeVisible
+import br.com.fiap.todolist.presentation.login.LoginActivity
+import br.com.fiap.todolist.presentation.registernote.RegisterNoteActivity
+import br.com.fiap.todolist.presentation.todolist.adapter.TodoListAdapter
+import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
+import br.com.fiap.todolist.presentation.utils.makeVisible
 
 class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
     private lateinit var binding: ActivityTodoListBinding

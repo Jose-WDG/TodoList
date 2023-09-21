@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/size_16_dp"
-    tools:context=".register.RegisterActivity">
+    tools:context=".presentation.register.RegisterActivity">
 
     <TextView
         android:id="@+id/cadastrar_titulo"

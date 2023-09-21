@@ -1,15 +1,12 @@
-package br.com.fiap.todolist.todolist.adapter
+package br.com.fiap.todolist.presentation.todolist.adapter
 
 import android.graphics.Color
-import android.graphics.drawable.RippleDrawable
 import android.view.LayoutInflater
-import android.view.View.OnLongClickListener
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.fiap.todolist.databinding.TodolistItemBinding
-import br.com.fiap.todolist.todolist.model.TodoListModel
+import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
 
 class TodoListAdapter(
     private val items: ArrayList<TodoListModel>,

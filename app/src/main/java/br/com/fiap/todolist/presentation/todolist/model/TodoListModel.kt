@@ -1,4 +1,4 @@
-package br.com.fiap.todolist.todolist.model
+package br.com.fiap.todolist.presentation.todolist.model
 
 import java.io.Serializable
 

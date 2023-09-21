@@ -1,9 +1,9 @@
-package br.com.fiap.todolist.todolist
+package br.com.fiap.todolist.presentation.todolist
 
 import androidx.lifecycle.MutableLiveData
-import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
-import br.com.fiap.todolist.todolist.model.TodoListModel
+import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
 import kotlinx.coroutines.launch
 
 class TodoListViewModel(

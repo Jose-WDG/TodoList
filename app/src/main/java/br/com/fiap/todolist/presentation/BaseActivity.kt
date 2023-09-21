@@ -1,4 +1,4 @@
-package br.com.fiap.todolist
+package br.com.fiap.todolist.presentation
 
 import android.view.View
 import androidx.appcompat.app.AlertDialog

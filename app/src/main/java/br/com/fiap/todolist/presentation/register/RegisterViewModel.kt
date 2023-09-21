@@ -1,8 +1,8 @@
-package br.com.fiap.todolist.register
+package br.com.fiap.todolist.presentation.register
 
-import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
-import br.com.fiap.todolist.utils.ValidateUtils
+import br.com.fiap.todolist.presentation.utils.ValidateUtils
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(

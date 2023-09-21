@@ -1,4 +1,4 @@
-package br.com.fiap.todolist.utils
+package br.com.fiap.todolist.presentation.utils
 
 import android.view.View
 
