@@ -1,16 +1,44 @@
 package br.com.fiap.todolist.data.remote
 
 import br.com.fiap.todolist.data.local.Constantes
-import br.com.fiap.todolist.todolist.TodoListViewModel
+import br.com.fiap.todolist.todolist.model.TodoListModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
 
-class FirebaseRepository(private val listener: TodoListViewModel.TodoListValueEventListener) {
+class FirebaseRepository {
     private val dataBase = FirebaseDatabase.getInstance(Constantes.DATA_BASE_URL).reference
     private val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-    fun requestTodoList() {
-        val dataBaseRef = dataBase.child(Constantes.DATA_BASE_NAME).child(userId!!)
-        dataBaseRef.addListenerForSingleValueEvent(listener)
+    suspend fun requestTodoList(): DataSnapshot? {
+        return userId?.let {
+            val dataBaseRef = dataBase.child(Constantes.DATA_BASE_NAME).child(it)
+            dataBaseRef.get().await()
+        }
+    }
+
+    suspend fun deleteNote(noteId: String) {
+        userId?.let {
+            val noteRef = dataBase.child(Constantes.DATA_BASE_NAME).child(it).child(noteId)
+            noteRef.removeValue().await()
+        }
+    }
+
+    suspend fun registerNote(note: TodoListModel){
+        userId?.let {
+            val key = dataBase.push().key
+            dataBase.child(Constantes.DATA_BASE_NAME)
+                .child(it)
+                .child(key.toString())
+                .setValue(note).await()
+        }
+    }
+
+    suspend fun editNote(note: TodoListModel) {
+        userId?.let {
+            val noteRef = dataBase.child(Constantes.DATA_BASE_NAME).child(userId!!).child(note.id!!)
+            noteRef.setValue(note).await()
+        }
     }
 }

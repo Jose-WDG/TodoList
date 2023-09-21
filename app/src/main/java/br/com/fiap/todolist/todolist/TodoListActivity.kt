@@ -6,18 +6,20 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.fiap.todolist.BaseActivity
 import br.com.fiap.todolist.databinding.ActivityTodoListBinding
 import br.com.fiap.todolist.login.LoginActivity
 import br.com.fiap.todolist.registernote.RegisterNoteActivity
 import br.com.fiap.todolist.todolist.adapter.TodoListAdapter
+import br.com.fiap.todolist.todolist.model.TodoListModel
 import br.com.fiap.todolist.utils.makeVisible
 
-class TodoListActivity : BaseActivity() {
+class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
     private lateinit var binding: ActivityTodoListBinding
     private val viewModel: TodoListViewModel by viewModels()
-    private val todoListAdapter = TodoListAdapter(arrayListOf())
+    private val todoListAdapter = TodoListAdapter(arrayListOf(), this)
     private val onActivityResultLauncher: ActivityResultLauncher<Intent> = initOnActivityResult()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +32,7 @@ class TodoListActivity : BaseActivity() {
         viewModel.getTodoList()
     }
 
-    private fun isLoading(isLoading: Boolean){
+    private fun isLoading(isLoading: Boolean) {
         binding.todoListRecyclerview.makeVisible(!isLoading)
         binding.loading.makeVisible(isLoading)
     }
@@ -62,14 +64,14 @@ class TodoListActivity : BaseActivity() {
             isLoading(false)
             when (it) {
                 is TodoListViewModel.TodoListState.Loading -> isLoading(true)
+                is TodoListViewModel.TodoListState.OnDataChange -> todoListAdapter.updateListItems(
+                    it.todoList
+                )
 
-                is TodoListViewModel.TodoListState.OnDataChange -> {
-                    todoListAdapter.updateListItems(it.todoList)
-                }
-
-                is TodoListViewModel.TodoListState.OnCancelled -> {
-                    buildErrorSnackBar(it.message, binding.root.rootView)
-                }
+                is TodoListViewModel.TodoListState.OnCancelled -> buildErrorSnackBar(
+                    it.message,
+                    binding.root.rootView
+                )
 
                 else -> buildErrorSnackBar("Erro inesperado!", binding.root.rootView)
             }
@@ -85,5 +87,22 @@ class TodoListActivity : BaseActivity() {
                 }
             })
         }
+    }
+
+    override fun clickNote(note: TodoListModel) {
+        AlertDialog.Builder(this)
+            .setTitle("O que você deseja fazer?")
+            .setPositiveButton("Editar") { dialog, which ->
+                val editIntent = RegisterNoteActivity.getEditIntent(this@TodoListActivity, note)
+                onActivityResultLauncher.launch(editIntent)
+            }
+            .setNegativeButton("Finalizar") { _, _ ->
+                viewModel.deleteNote(note.id.toString())
+            }.show()
+    }
+
+    override fun onDestroy() {
+        onActivityResultLauncher.unregister()
+        super.onDestroy()
     }
 }

@@ -1,8 +1,11 @@
 package br.com.fiap.todolist.todolist.model
 
+import java.io.Serializable
+
 data class TodoListModel(
-    val title: String = "",
-    val textBody: String = "",
+    val id: String? = null,
+    var title: String = "",
+    var textBody: String = "",
     val finished: Boolean = false,
     val backGroundColor: String = ""
-)
+): Serializable
