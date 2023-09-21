@@ -7,8 +7,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.fiap.todolist.BaseActivity
+import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityTodoListBinding
 import br.com.fiap.todolist.login.LoginActivity
 import br.com.fiap.todolist.registernote.RegisterNoteActivity
@@ -18,7 +21,7 @@ import br.com.fiap.todolist.utils.makeVisible
 
 class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
     private lateinit var binding: ActivityTodoListBinding
-    private val viewModel: TodoListViewModel by viewModels()
+    private val viewModel: TodoListViewModel by lazy { initViewModel() }
     private val todoListAdapter = TodoListAdapter(arrayListOf(), this)
     private val onActivityResultLauncher: ActivityResultLauncher<Intent> = initOnActivityResult()
 
@@ -32,8 +35,14 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
         viewModel.getTodoList()
     }
 
+    private fun initViewModel(): TodoListViewModel {
+        val repository = FirebaseRepository()
+        val viewModelFactory = TodoListViewModelFactory(repository)
+        return ViewModelProvider(this, viewModelFactory)[TodoListViewModel::class.java]
+    }
+
     private fun isLoading(isLoading: Boolean) {
-        binding.todoListRecyclerview.makeVisible(!isLoading)
+        binding.todoListRecyclerview.makeVisible(true)
         binding.loading.makeVisible(isLoading)
     }
 
@@ -92,11 +101,10 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
     override fun clickNote(note: TodoListModel) {
         AlertDialog.Builder(this)
             .setTitle("O que você deseja fazer?")
-            .setPositiveButton("Editar") { dialog, which ->
+            .setPositiveButton("Editar") { _, _ ->
                 val editIntent = RegisterNoteActivity.getEditIntent(this@TodoListActivity, note)
                 onActivityResultLauncher.launch(editIntent)
-            }
-            .setNegativeButton("Finalizar") { _, _ ->
+            }.setNegativeButton("Finalizar") { _, _ ->
                 viewModel.deleteNote(note.id.toString())
             }.show()
     }
@@ -104,5 +112,16 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
     override fun onDestroy() {
         onActivityResultLauncher.unregister()
         super.onDestroy()
+    }
+
+    private class TodoListViewModelFactory(
+        private val repository: FirebaseRepository
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(TodoListViewModel::class.java)) {
+                return TodoListViewModel(repository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }

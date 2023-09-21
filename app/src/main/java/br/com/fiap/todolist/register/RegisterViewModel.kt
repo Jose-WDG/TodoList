@@ -1,12 +1,13 @@
 package br.com.fiap.todolist.register
 
 import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.utils.ValidateUtils
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-class RegisterViewModel : BaseViewModel() {
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+class RegisterViewModel(
+    private val repository: FirebaseRepository
+) : BaseViewModel() {
 
     fun register(email: String, password: String, confirmPassword: String) {
         result.postValue(BaseState.Loading)
@@ -20,19 +21,15 @@ class RegisterViewModel : BaseViewModel() {
     }
 
     private fun register(email: String, password: String) {
-        try {
-            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    it.result.user?.let {
-                        result.postValue(BaseState.Sucess)
-                    }
-                } else {
-                    result.postValue(BaseState.Error(it.exception?.message.toString()))
-                }
+        launch {
+            try {
+                repository.registerUser(email, password)
+                result.postValue(BaseState.Sucess)
+            } catch (e: Exception) {
+                result.postValue(BaseState.Error(e.message.toString()))
             }
-        } catch (e: Exception) {
-            result.postValue(BaseState.Error(e.message.toString()))
         }
+
     }
 
 

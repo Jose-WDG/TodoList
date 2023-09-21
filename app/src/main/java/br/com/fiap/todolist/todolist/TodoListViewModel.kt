@@ -6,14 +6,14 @@ import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.todolist.model.TodoListModel
 import kotlinx.coroutines.launch
 
-class TodoListViewModel : BaseViewModel() {
+class TodoListViewModel(
+    private val repository: FirebaseRepository
+) : BaseViewModel() {
     val todoListState = MutableLiveData<TodoListState>()
-    private val repository: FirebaseRepository =
-        FirebaseRepository()
 
     fun getTodoList() {
-        try {
-            launch {
+        launch {
+            try {
                 todoListState.postValue(TodoListState.Loading)
                 val todoList = requestTodoList()
                 todoListState.postValue(
@@ -21,13 +21,13 @@ class TodoListViewModel : BaseViewModel() {
                         todoList
                     )
                 )
+            } catch (e: Exception) {
+                todoListState.postValue(TodoListState.OnCancelled(e.message.toString()))
             }
-        } catch (e: Exception) {
-            todoListState.postValue(TodoListState.OnCancelled(e.message.toString()))
         }
     }
 
-    private suspend fun requestTodoList():List<TodoListModel>{
+    private suspend fun requestTodoList(): List<TodoListModel> {
         val todoList = mutableListOf<TodoListModel>()
         repository.requestTodoList()?.let {
             for (childSnapshot in it.children) {
@@ -42,14 +42,14 @@ class TodoListViewModel : BaseViewModel() {
     }
 
     fun deleteNote(noteId: String) {
-        try {
-            launch {
+        launch {
+            try {
                 todoListState.postValue(TodoListState.Loading)
                 repository.deleteNote(noteId)
                 todoListState.postValue(TodoListState.OnDataChange(requestTodoList()))
+            } catch (e: Exception) {
+                todoListState.postValue(TodoListState.OnCancelled(e.message.toString()))
             }
-        } catch (e: Exception) {
-            todoListState.postValue(TodoListState.OnCancelled(e.message.toString()))
         }
     }
 

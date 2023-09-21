@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import br.com.fiap.todolist.BaseActivity
 import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityRegisterTodoListBinding
 import br.com.fiap.todolist.todolist.model.TodoListModel
 import br.com.fiap.todolist.utils.BgColor
@@ -15,7 +17,7 @@ import br.com.fiap.todolist.utils.makeVisible
 
 class RegisterNoteActivity : BaseActivity() {
     private lateinit var binding: ActivityRegisterTodoListBinding
-    private val viewModel: RegisterNoteViewModel by viewModels()
+    private val viewModel: RegisterNoteViewModel by lazy { initViewModel() }
     private var editNote: TodoListModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,20 +27,43 @@ class RegisterNoteActivity : BaseActivity() {
         initObservers()
         isEditing()
         binding.btnRegister.setOnClickListener {
-            val newNote = TodoListModel(
-                title = binding.inputNote.text.toString(),
-                textBody = binding.inputBody.text.toString(),
-                finished = false,
-                backGroundColor = BgColor.getRandomPostItColor()
-            )
-
-            editNote?.let {
-                it.title = binding.inputNote.text.toString()
-                it.textBody = binding.inputBody.text.toString()
-                viewModel.editNote(it)
-            } ?: viewModel.register(newNote)
+            registerNote()
         }
     }
+
+    private fun initViewModel(): RegisterNoteViewModel {
+        val repository = FirebaseRepository()
+        val viewModelFactory = RegisterNoteViewModelFactory(repository)
+        return ViewModelProvider(this, viewModelFactory)[RegisterNoteViewModel::class.java]
+    }
+
+    private fun registerNote() {
+        val title = binding.inputNote.text.toString()
+        val textBody = binding.inputBody.text.toString()
+
+        if (!validField(title, textBody)) {
+            buildErrorSnackBar(
+                "Preencha pelo menos um dos campos.",
+                binding.root.rootView
+            )
+            return
+        }
+
+        val newNote = TodoListModel(
+            title = title,
+            textBody = textBody,
+            finished = false,
+            backGroundColor = BgColor.getRandomPostItColor()
+        )
+
+        editNote?.let {
+            it.title = binding.inputNote.text.toString()
+            it.textBody = binding.inputBody.text.toString()
+            viewModel.editNote(it)
+        } ?: viewModel.register(newNote)
+    }
+
+    private fun validField(title: String, textBody: String) = title.isNotEmpty() || textBody.isNotEmpty()
 
     private fun isEditing() {
         editNote = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -84,11 +109,22 @@ class RegisterNoteActivity : BaseActivity() {
 
     companion object {
         const val NOTE_EXTRA = "RegisterNoteActivity.NOTE_EXTRA"
-        const val RESULT_EDIT_OK = Int.MAX_VALUE
+
         fun getEditIntent(context: Context, note: TodoListModel): Intent {
             return Intent(context, RegisterNoteActivity::class.java).apply {
                 putExtra(NOTE_EXTRA, note)
             }
+        }
+    }
+
+    private class RegisterNoteViewModelFactory(
+        private val repository: FirebaseRepository
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(RegisterNoteViewModel::class.java)) {
+                return RegisterNoteViewModel(repository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }

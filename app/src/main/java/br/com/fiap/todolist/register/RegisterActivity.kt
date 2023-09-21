@@ -1,17 +1,18 @@
 package br.com.fiap.todolist.register
 
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import br.com.fiap.todolist.BaseActivity
 import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityRegisterBinding
 import br.com.fiap.todolist.utils.makeInVisible
 import br.com.fiap.todolist.utils.makeVisible
 
 class RegisterActivity : BaseActivity() {
     private lateinit var binding: ActivityRegisterBinding
-    private val viewModel: RegisterViewModel by viewModels()
+    private val viewModel: RegisterViewModel by lazy { initViewModel() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,12 @@ class RegisterActivity : BaseActivity() {
 
             viewModel.register(email, password, confirmPassword)
         }
+    }
+
+    private fun initViewModel(): RegisterViewModel {
+        val repository = FirebaseRepository()
+        val viewModelFactory = RegisterViewModelFactory(repository)
+        return ViewModelProvider(this, viewModelFactory)[RegisterViewModel::class.java]
     }
 
     private fun initObserver() {
@@ -52,5 +59,16 @@ class RegisterActivity : BaseActivity() {
     private fun loading(isLoading: Boolean) {
         binding.btnRegister.makeInVisible(isLoading)
         binding.loading.makeVisible(isLoading)
+    }
+
+    private class RegisterViewModelFactory(
+        private val repository: FirebaseRepository
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
+                return RegisterViewModel(repository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }

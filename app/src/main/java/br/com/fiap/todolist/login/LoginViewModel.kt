@@ -1,36 +1,33 @@
 package br.com.fiap.todolist.login
 
 import br.com.fiap.todolist.BaseViewModel
+import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.utils.ValidateUtils
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.launch
 
-class LoginViewModel : BaseViewModel() {
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+class LoginViewModel(
+    private val repository: FirebaseRepository
+) : BaseViewModel() {
 
     fun singIn(email: String, password: String) {
-        try {
-            result.postValue(BaseState.Loading)
-            if (isFieldsValid(email, password)) return
-            if (isEmailValid(email)) return
+        launch {
+            try {
+                result.postValue(BaseState.Loading)
+                if (isFieldsValid(email, password)) return@launch
+                if (isEmailValid(email)) return@launch
 
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        it.result.user?.let {
-                            result.postValue(BaseState.Sucess)
-                        } ?: throw IllegalStateException("Usuário não pode ser null!")
-                    } else {
-                        result.postValue(BaseState.Error("Falha no login: ${it.exception?.message}"))
-                    }
-                }
-        } catch (e: Exception) {
-            result.postValue(BaseState.Error("Falha no login: ${e.message}"))
+                val singIn = repository.singIn(email, password)
+                singIn?.let {
+                    result.postValue(BaseState.Sucess)
+                } ?: throw IllegalStateException("Usuário não encontrado")
+            } catch (e: Exception) {
+                result.postValue(BaseState.Error("Falha no login: ${e.message}"))
+            }
         }
     }
 
-    fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
-
+    fun getCurrentUser(): FirebaseUser? = repository.getCurrentUser()
 
     private fun isEmailValid(email: String): Boolean {
         if (!ValidateUtils.isValidEmail(email)) {
