@@ -4,4 +4,7 @@
     <dimen name="size_16_dp">16sp</dimen>
     <dimen name="size_24_sp">24sp</dimen>
     <dimen name="size_32_sp">32sp</dimen>
+    <dimen name="size_100_dp">100dp</dimen>
+    <dimen name="size_150_dp">150dp</dimen>
+    <dimen name="size_120_dp">120dp</dimen>
 </resources>

@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:minHeight="100dp"
+            android:minHeight="@dimen/size_100_dp"
             android:gravity="top|start"
             android:scrollbars="vertical" />
 
@@ -62,7 +62,7 @@
         android:id="@+id/btn_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/size_16_dp"
         android:text="@string/btn_register_note"
         tools:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/layout_body_note"

@@ -11,7 +11,7 @@
         android:id="@+id/cadastrar_titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cadastrar"
+        android:text="@string/register"
         android:textSize="@dimen/size_32_sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_8_dp"
-        android:hint="Email"
+        android:hint="@string/e_mail"
         app:layout_constraintTop_toBottomOf="@id/cadastrar_titulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -41,10 +41,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_8_dp"
-        android:hint="Senha"
+        android:hint="@string/password"
         app:layout_constraintTop_toBottomOf="@id/layout_email"
         app:layout_constraintStart_toStartOf="parent"
-        app:helperText="A Senha deve ter entre 6-20 caracteres, incluir uma letra maiúscula, uma letra minúscula e um número."
+        app:helperText="@string/helper_text_password_requiriments"
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -60,7 +60,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_8_dp"
-        android:hint="Confirmar senha"
+        android:hint="@string/confirm_password"
         app:layout_constraintTop_toBottomOf="@id/layout_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -77,7 +77,7 @@
         android:id="@+id/btn_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Cadastrar"
+        android:text="@string/register"
         android:layout_marginTop="@dimen/size_16_dp"
         tools:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/layout_confirm_password"

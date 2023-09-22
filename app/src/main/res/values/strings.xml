@@ -15,4 +15,11 @@
     <string name="logout_describe">Você realmente deseja sair da sua conta?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="enter_text">Entrar</string>
+    <string name="register_new_user">Cadastrar nova conta</string>
+    <string name="register">Cadastrar</string>
+    <string name="confirm_password">Confirmar senha</string>
+    <string name="helper_text_password_requiriments">A Senha deve ter entre 6-20 caracteres, incluir uma letra maiúscula, uma letra minúscula e um número.</string>
 </resources>
