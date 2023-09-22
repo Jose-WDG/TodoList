@@ -73,7 +73,7 @@ class LoginActivity : BaseActivity() {
 
                 is BaseViewModel.BaseState.Error -> {
                     loading(false)
-                    buildErrorSnackBar(it.message, binding.root.rootView)
+                    buildErrorSnackBar(getString(it.message), binding.root.rootView)
                 }
 
                 else -> {

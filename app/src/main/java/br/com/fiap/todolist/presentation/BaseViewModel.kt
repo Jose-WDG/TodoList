@@ -25,6 +25,6 @@ open class BaseViewModel : ViewModel(), CoroutineScope {
     sealed class BaseState {
         object Loading : BaseState()
         object Sucess : BaseState()
-        data class Error(val message: String) : BaseState()
+        data class Error(val message: Int) : BaseState()
     }
 }

@@ -1,5 +1,6 @@
 package br.com.fiap.todolist.presentation.registeruser
 
+import br.com.fiap.todolist.R
 import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.presentation.utils.ValidateUtils
@@ -26,7 +27,7 @@ class RegisterUserViewModel(
                 repository.registerUser(email, password)
                 result.postValue(BaseState.Sucess)
             } catch (e: Exception) {
-                result.postValue(BaseState.Error(e.message.toString()))
+                result.postValue(BaseState.Error(R.string.erro_unespected))
             }
         }
 
@@ -38,8 +39,8 @@ class RegisterUserViewModel(
         password: String,
         confirmPassword: String
     ): Boolean {
-        if (email.isEmpty() || password.isEmpty() && confirmPassword.isEmpty()) {
-            result.postValue(BaseState.Error("Preencha todos os campos!"))
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            result.postValue(BaseState.Error(R.string.error_register_validation))
             return true
         }
         return false
@@ -47,7 +48,7 @@ class RegisterUserViewModel(
 
     private fun isEmailValid(email: String): Boolean {
         if (!ValidateUtils.isValidEmail(email)) {
-            result.postValue(BaseState.Error("E-mail inválido."))
+            result.postValue(BaseState.Error(R.string.error_register_validation_email))
             return true
         }
         return false
@@ -55,12 +56,7 @@ class RegisterUserViewModel(
 
     private fun isPasswordValid(password: String): Boolean {
         if (!ValidateUtils.isValidPassword(password)) {
-            result.postValue(
-                BaseState.Error(
-                    "Senha inválida. Deve ter entre 6-20 caracteres, " +
-                            "incluir uma letra maiúscula, uma letra minúscula e um número."
-                )
-            )
+            result.postValue(BaseState.Error(R.string.error_register_validation_password))
             return true
         }
         return false
@@ -68,7 +64,7 @@ class RegisterUserViewModel(
 
     private fun isPasswordValid(password: String, confirmPassword: String): Boolean {
         if (password != confirmPassword) {
-            result.postValue(BaseState.Error("As senhas não coincidem."))
+            result.postValue(BaseState.Error(R.string.error_register_validation_password_confirm))
             return true
         }
         return false

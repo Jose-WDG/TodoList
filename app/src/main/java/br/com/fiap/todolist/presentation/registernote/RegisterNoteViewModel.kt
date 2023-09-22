@@ -1,5 +1,6 @@
 package br.com.fiap.todolist.presentation.registernote
 
+import br.com.fiap.todolist.R
 import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
@@ -16,7 +17,7 @@ class RegisterNoteViewModel(
                 repository.registerNote(note)
                 result.postValue(BaseState.Sucess)
             } catch (e: Exception) {
-                result.postValue(BaseState.Error(e.message.toString()))
+                result.postValue(BaseState.Error(R.string.erro_unespected))
             }
         }
     }
@@ -28,7 +29,7 @@ class RegisterNoteViewModel(
                 repository.editNote(note)
                 result.postValue(BaseState.Sucess)
             } catch (e: Exception) {
-                result.postValue(BaseState.Error(e.message.toString()))
+                result.postValue(BaseState.Error(R.string.erro_unespected))
             }
         }
     }

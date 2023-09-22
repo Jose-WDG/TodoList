@@ -1,5 +1,6 @@
 package br.com.fiap.todolist.presentation.login
 
+import br.com.fiap.todolist.R
 import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.presentation.utils.ValidateUtils
@@ -20,9 +21,9 @@ class LoginViewModel(
                 val singIn = repository.singIn(email, password)
                 singIn?.let {
                     result.postValue(BaseState.Sucess)
-                } ?: throw IllegalStateException("Usuário não encontrado")
+                } ?: throw Exception()
             } catch (e: Exception) {
-                result.postValue(BaseState.Error("Falha no login: ${e.message}"))
+                result.postValue(BaseState.Error(R.string.error_login))
             }
         }
     }
@@ -31,7 +32,7 @@ class LoginViewModel(
 
     private fun isEmailValid(email: String): Boolean {
         if (!ValidateUtils.isValidEmail(email)) {
-            result.postValue(BaseState.Error("E-mail inválido."))
+            result.postValue(BaseState.Error(R.string.error_register_validation_email))
             return true
         }
         return false
@@ -42,7 +43,7 @@ class LoginViewModel(
         password: String
     ): Boolean {
         if (email.isEmpty() || password.isEmpty()) {
-            result.postValue(BaseState.Error("Preencha todos os campos!"))
+            result.postValue(BaseState.Error(R.string.error_register_validation))
             return true
         }
         return false

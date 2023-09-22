@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import br.com.fiap.todolist.R
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
@@ -17,8 +18,8 @@ open class BaseActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        val toolbar = Toolbar(this).apply {
-            setTheme(com.google.android.material.R.style.Base_Theme_AppCompat_Light_DarkActionBar)
+        val toolbar = MaterialToolbar(baseContext).apply {
+            setTheme(com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Toolbar_Primary)
         }
         setSupportActionBar(toolbar)
     }

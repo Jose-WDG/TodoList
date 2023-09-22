@@ -16,20 +16,25 @@
         <activity
             android:name=".presentation.registernote.RegisterNoteActivity"
             android:theme="@style/Theme.Material3.DayNight"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.registeruser.RegisterUserActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.todolist.TodoListActivity"
             android:theme="@style/Theme.Material3.DayNight"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.login.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.SplashScreenActivity"
             android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

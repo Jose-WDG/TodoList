@@ -23,4 +23,9 @@
     <string name="register">Cadastrar</string>
     <string name="confirm_password">Confirmar senha</string>
     <string name="helper_text_password_requiriments">A Senha deve ter entre 6-20 caracteres, incluir uma letra maiúscula, uma letra minúscula e um número.</string>
+    <string name="error_register_validation">Preencha todos os campos!</string>
+    <string name="error_register_validation_email">E-mail inválido.</string>
+    <string name="error_register_validation_password">Senha inválida. Deve ter entre 6-20 caracteres, incluir uma letra maiúscula, uma letra minúscula e um número.</string>
+    <string name="error_register_validation_password_confirm">As senhas não coincidem.</string>
+    <string name="error_login">Falha no login.</string>
 </resources>

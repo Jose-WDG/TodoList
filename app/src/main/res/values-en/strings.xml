@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">TodoList</string>
+    <string name="new_note_title">New Note</string>
+    <string name="title_note">Note Title</string>
+    <string name="body_note">Annotation</string>
+    <string name="btn_register_note">Register</string>
+    <string name="edit_text_btn">Edit</string>
+    <string name="field_required">Please fill in at least one of the fields.</string>
+    <string name="note_register_sucess">Note successfully registered!</string>
+    <string name="erro_unespected">Unexpected error!</string>
+    <string name="user_register_sucess">User successfully registered!</string>
+    <string name="dialog_edit_title">What do you want to do?</string>
+    <string name="finishi">Finish</string>
+    <string name="logout">Log Out</string>
+    <string name="logout_menu">Logout</string>
+    <string name="logout_describe">Do you really want to log out of your account?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Password</string>
+    <string name="enter_text">Enter</string>
+    <string name="register_new_user">Register new account</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="helper_text_password_requiriments">Password must be between 6-20 characters, include one uppercase letter, one lowercase letter, and one number.</string>
+    <string name="error_register_validation">Fill in all the fields!</string>
+    <string name="error_register_validation_email">Invalid e-mail.</string>
+    <string name="error_register_validation_password">Invalid password. It must be between 6-20 characters, include one uppercase letter, one lowercase letter, and one number.</string>
+    <string name="error_register_validation_password_confirm">The passwords do not match.</string>
+    <string name="error_login">Login failed.</string>
+</resources>

@@ -48,7 +48,7 @@ class RegisterUserActivity : BaseActivity() {
                 )
 
                 is BaseViewModel.BaseState.Error -> buildErrorSnackBar(
-                    it.message,
+                    getString(it.message),
                     binding.root.rootView
                 )
 
