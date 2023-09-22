@@ -15,12 +15,14 @@
         android:theme="@style/Theme.TodoList" >
         <activity
             android:name=".presentation.registernote.RegisterNoteActivity"
+            android:theme="@style/Theme.Material3.DayNight"
             android:exported="false" />
         <activity
             android:name=".presentation.registeruser.RegisterUserActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.todolist.TodoListActivity"
+            android:theme="@style/Theme.Material3.DayNight"
             android:exported="false" />
         <activity
             android:name=".presentation.login.LoginActivity"

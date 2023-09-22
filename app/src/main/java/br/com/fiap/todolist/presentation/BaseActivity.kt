@@ -1,14 +1,27 @@
 package br.com.fiap.todolist.presentation
 
+import android.os.Bundle
+import android.os.PersistableBundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import br.com.fiap.todolist.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 open class BaseActivity: AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        val toolbar = Toolbar(this).apply {
+            setTheme(com.google.android.material.R.style.Base_Theme_AppCompat_Light_DarkActionBar)
+        }
+        setSupportActionBar(toolbar)
+    }
 
     open fun buildSnackBar(color: Int, msg: String,view: View){
         Snackbar.make(
@@ -29,7 +42,7 @@ open class BaseActivity: AppCompatActivity() {
         buildSnackBar(color, msg, view)
     }
 
-    fun showLogoutDialog(listener: LogoutListener) {
+    fun showLogoutDialog(listener: () -> Unit) {
         val firebaseAuth = FirebaseAuth.getInstance()
         firebaseAuth.currentUser.let {
             val builder = AlertDialog.Builder(this)
@@ -37,7 +50,7 @@ open class BaseActivity: AppCompatActivity() {
             builder.setMessage(getString(R.string.logout_describe))
             builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
                 firebaseAuth.signOut()
-                listener.onLogout()
+                listener()
             }
             builder.setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
@@ -46,7 +59,20 @@ open class BaseActivity: AppCompatActivity() {
         }
     }
 
-    interface LogoutListener {
-        fun onLogout()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                showLogoutDialog {
+                    finish()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

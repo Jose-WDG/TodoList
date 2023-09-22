@@ -8,7 +8,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.fiap.todolist.R
 import br.com.fiap.todolist.presentation.BaseActivity
 import br.com.fiap.todolist.data.remote.FirebaseRepository
@@ -51,6 +53,7 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
             adapter = todoListAdapter
             layoutManager = LinearLayoutManager(this@TodoListActivity)
             setHasFixedSize(true)
+            addDragAndDrop(this)
         }
 
         binding.btnNewNote.setOnClickListener {
@@ -58,6 +61,11 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
                 Intent(this@TodoListActivity, RegisterNoteActivity::class.java)
             )
         }
+    }
+
+    private fun addDragAndDrop(recyclerView: RecyclerView) {
+        val itemTouchHelper = ItemTouchHelper(TodoListAdapter.DragAndDrop(todoListAdapter))
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun initOnActivityResult(): ActivityResultLauncher<Intent> {
@@ -82,19 +90,20 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
                     binding.root.rootView
                 )
 
-                else -> buildErrorSnackBar(getString(R.string.erro_unespected), binding.root.rootView)
+                else -> buildErrorSnackBar(
+                    getString(R.string.erro_unespected),
+                    binding.root.rootView
+                )
             }
         }
     }
 
     inner class TodoListOnBackPressedCallback(enabled: Boolean) : OnBackPressedCallback(enabled) {
         override fun handleOnBackPressed() {
-            showLogoutDialog(object : LogoutListener {
-                override fun onLogout() {
-                    startActivity(Intent(this@TodoListActivity, LoginActivity::class.java))
-                    finish()
-                }
-            })
+            showLogoutDialog {
+                startActivity(Intent(this@TodoListActivity, LoginActivity::class.java))
+                finish()
+            }
         }
     }
 

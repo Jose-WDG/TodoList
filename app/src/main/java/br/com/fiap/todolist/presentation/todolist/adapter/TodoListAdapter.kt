@@ -4,9 +4,11 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import br.com.fiap.todolist.databinding.TodolistItemBinding
 import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
+import java.util.Collections
 
 class TodoListAdapter(
     private val items: ArrayList<TodoListModel>,
@@ -31,13 +33,18 @@ class TodoListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
         val binding =
             TodolistItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TodoListViewHolder(binding,onLongClickListener)
+        return TodoListViewHolder(binding, onLongClickListener)
     }
 
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
         holder.bind(items[position], position)
+    }
+
+    fun onItemMove(fromPosition: Int, toPosition: Int) {
+        Collections.swap(items, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
     }
 
     class TodoListViewHolder(
@@ -49,12 +56,11 @@ class TodoListAdapter(
             binding.itemTitle.text = item.title
             binding.itemBody.text = item.textBody
             binding.cardBg.apply {
-//                val background = background as? RippleDrawable
-//                background?.state = intArrayOf(android.R.attr.state_pressed, android.R.attr.state_enabled)
+                background?.state =
+                    intArrayOf(android.R.attr.state_pressed, android.R.attr.state_enabled)
                 setBackgroundColor(Color.parseColor(item.backGroundColor))
-                setOnLongClickListener{
+                setOnClickListener {
                     onLongClickListener.clickNote(item)
-                    true
                 }
             }
         }
@@ -86,5 +92,22 @@ class TodoListAdapter(
 
     interface OnClickNote {
         fun clickNote(note: TodoListModel)
+    }
+
+    class DragAndDrop(private val adapter: TodoListAdapter) : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            val fromPosition = viewHolder.adapterPosition
+            val toPosition = target.adapterPosition
+            adapter.onItemMove(fromPosition, toPosition)
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
     }
 }

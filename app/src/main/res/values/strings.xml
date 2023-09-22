@@ -10,8 +10,9 @@
     <string name="erro_unespected">Erro inesperado!</string>
     <string name="user_register_sucess">Usuário cadastrado com sucesso!</string>
     <string name="dialog_edit_title">O que você deseja fazer?</string>
-    <string name="finishi">Finalizar</string>
-    <string name="logout">Logout</string>
+    <string name="finishi">Encerrar</string>
+    <string name="logout">Finalizar Sessão</string>
+    <string name="logout_menu">Sair</string>
     <string name="logout_describe">Você realmente deseja sair da sua conta?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
