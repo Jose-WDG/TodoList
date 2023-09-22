@@ -4,6 +4,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import br.com.fiap.todolist.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
@@ -32,13 +33,13 @@ open class BaseActivity: AppCompatActivity() {
         val firebaseAuth = FirebaseAuth.getInstance()
         firebaseAuth.currentUser.let {
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Logout")
-            builder.setMessage("Você realmente deseja sair da sua conta?")
-            builder.setPositiveButton("Sim") { _, _ ->
+            builder.setTitle(getString(R.string.logout))
+            builder.setMessage(getString(R.string.logout_describe))
+            builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
                 firebaseAuth.signOut()
                 listener.onLogout()
             }
-            builder.setNegativeButton("Não") { dialog, _ ->
+            builder.setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
             }
             builder.show()

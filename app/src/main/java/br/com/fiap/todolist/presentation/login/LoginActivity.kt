@@ -2,15 +2,15 @@ package br.com.fiap.todolist.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.fiap.todolist.presentation.BaseActivity
-import br.com.fiap.todolist.presentation.BaseViewModel
+import br.com.fiap.todolist.R
 import br.com.fiap.todolist.data.local.UserPreferences
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityLoginBinding
-import br.com.fiap.todolist.presentation.register.RegisterActivity
+import br.com.fiap.todolist.presentation.BaseActivity
+import br.com.fiap.todolist.presentation.BaseViewModel
+import br.com.fiap.todolist.presentation.registeruser.RegisterUserActivity
 import br.com.fiap.todolist.presentation.todolist.TodoListActivity
 import br.com.fiap.todolist.presentation.utils.makeInVisible
 import br.com.fiap.todolist.presentation.utils.makeVisible
@@ -34,7 +34,7 @@ class LoginActivity : BaseActivity() {
         }
 
         binding.btnContextualCadastrar.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            startActivity(Intent(this, RegisterUserActivity::class.java))
         }
 
         hasCurrentUser()
@@ -78,9 +78,7 @@ class LoginActivity : BaseActivity() {
 
                 else -> {
                     loading(false)
-                    val message = "Error Inesperado."
-                    buildErrorSnackBar(message, binding.root.rootView)
-                    Log.e("TodoList", message)
+                    buildErrorSnackBar(getString(R.string.erro_unespected), binding.root.rootView)
                 }
             }
         }
@@ -93,6 +91,7 @@ class LoginActivity : BaseActivity() {
         sharedPreferences.setValue(UserPreferences.EMAIL_KEY,email)
         sharedPreferences.setValue(UserPreferences.PASSWORD_KEY,password)
     }
+
     private fun loading(isLoading: Boolean) {
         binding.btnLogin.makeInVisible(isLoading)
         binding.btnContextualCadastrar.isClickable = !isLoading

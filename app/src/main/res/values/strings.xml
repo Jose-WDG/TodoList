@@ -4,4 +4,15 @@
     <string name="title_note">Título da nota</string>
     <string name="body_note">Anotação</string>
     <string name="btn_register_note">Registrar</string>
+    <string name="edit_text_btn">Editar</string>
+    <string name="field_required">Preencha pelo menos um dos campos.</string>
+    <string name="note_register_sucess">Nota cadastrada com sucesso!</string>
+    <string name="erro_unespected">Erro inesperado!</string>
+    <string name="user_register_sucess">Usuário cadastrado com sucesso!</string>
+    <string name="dialog_edit_title">O que você deseja fazer?</string>
+    <string name="finishi">Finalizar</string>
+    <string name="logout">Logout</string>
+    <string name="logout_describe">Você realmente deseja sair da sua conta?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 </resources>

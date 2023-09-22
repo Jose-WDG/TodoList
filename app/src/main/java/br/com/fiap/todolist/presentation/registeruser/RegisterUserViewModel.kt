@@ -1,11 +1,11 @@
-package br.com.fiap.todolist.presentation.register
+package br.com.fiap.todolist.presentation.registeruser
 
 import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.presentation.utils.ValidateUtils
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(
+class RegisterUserViewModel(
     private val repository: FirebaseRepository
 ) : BaseViewModel() {
 

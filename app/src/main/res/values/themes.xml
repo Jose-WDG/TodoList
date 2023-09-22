@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.TodoList" parent="Base.Theme.TodoList" />
+
+    <style name="SplashTheme" parent="Theme.TodoList">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 </resources>

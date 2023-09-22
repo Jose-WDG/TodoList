@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import br.com.fiap.todolist.R
 import br.com.fiap.todolist.presentation.BaseActivity
 import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
@@ -26,6 +27,7 @@ class RegisterNoteActivity : BaseActivity() {
         setContentView(binding.root)
         initObservers()
         isEditing()
+        editNote?.let { binding.btnRegister.text = getString(R.string.edit_text_btn) }
         binding.btnRegister.setOnClickListener {
             registerNote()
         }
@@ -43,7 +45,7 @@ class RegisterNoteActivity : BaseActivity() {
 
         if (!validField(title, textBody)) {
             buildErrorSnackBar(
-                "Preencha pelo menos um dos campos.",
+                getString(R.string.field_required),
                 binding.root.rootView
             )
             return
@@ -63,7 +65,8 @@ class RegisterNoteActivity : BaseActivity() {
         } ?: viewModel.register(newNote)
     }
 
-    private fun validField(title: String, textBody: String) = title.isNotEmpty() || textBody.isNotEmpty()
+    private fun validField(title: String, textBody: String) =
+        title.isNotEmpty() || textBody.isNotEmpty()
 
     private fun isEditing() {
         editNote = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -85,7 +88,7 @@ class RegisterNoteActivity : BaseActivity() {
 
                 is BaseViewModel.BaseState.Sucess -> {
                     buildSucessSnackBar(
-                        "Nota cadastrada com sucesso!",
+                        getString(R.string.note_register_sucess),
                         binding.root.rootView
                     )
                     setResult(RESULT_OK)
@@ -97,7 +100,7 @@ class RegisterNoteActivity : BaseActivity() {
                     binding.root.rootView
                 )
 
-                else -> buildErrorSnackBar("Erro inesperado!", binding.root.rootView)
+                else -> buildErrorSnackBar(getString(R.string.erro_unespected), binding.root.rootView)
             }
         }
     }
@@ -128,3 +131,4 @@ class RegisterNoteActivity : BaseActivity() {
         }
     }
 }
+

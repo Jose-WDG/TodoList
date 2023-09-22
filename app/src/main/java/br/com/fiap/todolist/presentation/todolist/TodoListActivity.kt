@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.fiap.todolist.R
 import br.com.fiap.todolist.presentation.BaseActivity
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityTodoListBinding
@@ -81,7 +82,7 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
                     binding.root.rootView
                 )
 
-                else -> buildErrorSnackBar("Erro inesperado!", binding.root.rootView)
+                else -> buildErrorSnackBar(getString(R.string.erro_unespected), binding.root.rootView)
             }
         }
     }
@@ -99,11 +100,11 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
 
     override fun clickNote(note: TodoListModel) {
         AlertDialog.Builder(this)
-            .setTitle("O que você deseja fazer?")
-            .setPositiveButton("Editar") { _, _ ->
+            .setTitle(getString(R.string.dialog_edit_title))
+            .setPositiveButton(getString(R.string.edit_text_btn)) { _, _ ->
                 val editIntent = RegisterNoteActivity.getEditIntent(this@TodoListActivity, note)
                 onActivityResultLauncher.launch(editIntent)
-            }.setNegativeButton("Finalizar") { _, _ ->
+            }.setNegativeButton(getString(R.string.finishi)) { _, _ ->
                 viewModel.deleteNote(note.id.toString())
             }.show()
     }
