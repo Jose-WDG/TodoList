@@ -15,7 +15,6 @@ import br.com.fiap.todolist.R
 import br.com.fiap.todolist.presentation.BaseActivity
 import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.ActivityTodoListBinding
-import br.com.fiap.todolist.presentation.login.LoginActivity
 import br.com.fiap.todolist.presentation.registernote.RegisterNoteActivity
 import br.com.fiap.todolist.presentation.todolist.adapter.TodoListAdapter
 import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
@@ -101,7 +100,7 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
     inner class TodoListOnBackPressedCallback(enabled: Boolean) : OnBackPressedCallback(enabled) {
         override fun handleOnBackPressed() {
             showLogoutDialog {
-                startActivity(Intent(this@TodoListActivity, LoginActivity::class.java))
+                gotoLoginPage()
                 finish()
             }
         }

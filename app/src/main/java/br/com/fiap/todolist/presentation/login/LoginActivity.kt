@@ -19,6 +19,7 @@ class LoginActivity : BaseActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val viewModel: LoginViewModel by lazy { initViewModel() }
     private val sharedPreferences by lazy { UserPreferences(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -108,4 +109,6 @@ class LoginActivity : BaseActivity() {
             throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
+
+    override fun onBackPressed() = Unit
 }

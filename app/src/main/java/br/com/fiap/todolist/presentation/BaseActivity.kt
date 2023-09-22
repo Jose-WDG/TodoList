@@ -1,5 +1,6 @@
 package br.com.fiap.todolist.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.Menu
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import br.com.fiap.todolist.R
+import br.com.fiap.todolist.presentation.login.LoginActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -65,10 +67,17 @@ open class BaseActivity: AppCompatActivity() {
         return true
     }
 
+    fun gotoLoginPage(){
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
                 showLogoutDialog {
+                    gotoLoginPage()
                     finish()
                 }
                 true
