@@ -1,5 +1,6 @@
 package br.com.fiap.todolist.presentation.todolist
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import br.com.fiap.todolist.presentation.BaseViewModel
 import br.com.fiap.todolist.data.remote.FirebaseRepository
@@ -29,8 +30,8 @@ class TodoListViewModel(
 
     private suspend fun requestTodoList(): List<TodoListModel> {
         val todoList = mutableListOf<TodoListModel>()
-        repository.requestTodoList()?.let {
-            for (childSnapshot in it.children) {
+        repository.requestTodoList()?.let { snapshot ->
+            for (childSnapshot in snapshot.children) {
                 val todo = childSnapshot.getValue(TodoListModel::class.java)
                     ?.copy(id = childSnapshot.key)
                 todo?.let {

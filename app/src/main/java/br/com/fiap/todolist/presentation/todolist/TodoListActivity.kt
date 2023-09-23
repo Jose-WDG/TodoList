@@ -2,6 +2,7 @@ package br.com.fiap.todolist.presentation.todolist
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -63,6 +64,7 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
     }
 
     private fun addDragAndDrop(recyclerView: RecyclerView) {
+        Log.d("TodoListActivity", "addDragAndDrop")
         val itemTouchHelper = ItemTouchHelper(TodoListAdapter.DragAndDrop(todoListAdapter))
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }

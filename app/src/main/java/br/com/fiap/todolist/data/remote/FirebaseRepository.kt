@@ -21,6 +21,13 @@ class FirebaseRepository {
         }
     }
 
+    suspend fun requestUpdateListPosition(todoList: List<TodoListModel>) {
+        userId?.let {
+            val dataBaseRef = dataBase.child(Constantes.DATA_BASE_NAME).child(it)
+            dataBaseRef.setValue(todoList).await()
+        }
+    }
+
     suspend fun deleteNote(noteId: String) {
         userId?.let {
             val noteRef = dataBase.child(Constantes.DATA_BASE_NAME).child(it).child(noteId)
@@ -40,7 +47,7 @@ class FirebaseRepository {
 
     suspend fun editNote(note: TodoListModel) {
         userId?.let {
-            val noteRef = dataBase.child(Constantes.DATA_BASE_NAME).child(userId!!).child(note.id!!)
+            val noteRef = dataBase.child(Constantes.DATA_BASE_NAME).child(userId).child(note.id!!)
             noteRef.setValue(note).await()
         }
     }

@@ -12,7 +12,7 @@ import java.util.Collections
 
 class TodoListAdapter(
     private val items: ArrayList<TodoListModel>,
-    private val onLongClickListener: OnClickNote
+    private val onLongClickListener: OnClickNote,
 ) :
     RecyclerView.Adapter<TodoListAdapter.TodoListViewHolder>() {
 
@@ -25,10 +25,10 @@ class TodoListAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun updateItem(newitem: TodoListModel) {
-        this.items.add(newitem)
-        notifyItemChanged(items.size - 1, items.size)
-    }
+//    fun updateItem(newItem: TodoListModel) {
+//        this.items.add(newItem)
+//        notifyItemChanged(items.size - 1, items.size)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
         val binding =
