@@ -46,9 +46,7 @@ class FirebaseRepository {
     }
 
     suspend fun registerUser(email: String, password: String) {
-        userId?.let {
             firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-        }
     }
 
     suspend fun singIn(email: String, password: String): AuthResult? = firebaseAuth.signInWithEmailAndPassword(email, password).await()

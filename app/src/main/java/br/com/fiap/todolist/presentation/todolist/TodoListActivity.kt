@@ -31,7 +31,7 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
         binding = ActivityTodoListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         onBackPressedDispatcher.addCallback(TodoListOnBackPressedCallback(true))
-        initObsrever()
+        initObserver()
         initBindings()
         viewModel.getTodoList()
     }
@@ -75,7 +75,7 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
         }
     }
 
-    private fun initObsrever() {
+    private fun initObserver() {
         viewModel.todoListState.observe(this) {
             isLoading(false)
             when (it) {
