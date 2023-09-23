@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "163673228440",
+    "firebase_url": "https://mobr-fiap-final-android-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mobr-fiap-final-android",
+    "storage_bucket": "mobr-fiap-final-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163673228440:android:4c4a540dbb27f2aefebced",
+        "android_client_info": {
+          "package_name": "br.com.fiap.todolist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgNA9U0Cv6yRfrvLcTKqYJWTkZKXTbRGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
