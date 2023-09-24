@@ -35,6 +35,15 @@ open class BaseActivity: AppCompatActivity() {
         ).setBackgroundTint(color).show()
     }
 
+    open fun buildSnackBar(color: Int, msg: String,view: View, action: () -> Unit){
+        Snackbar.make(
+            this,
+            view,
+            msg,
+            Snackbar.LENGTH_SHORT
+        ).setBackgroundTint(color).setAction("Tentar Novamente") { action() }.show()
+    }
+
     open fun buildSucessSnackBar(msg: String, view: View){
         val color = ContextCompat.getColor(this, android.R.color.holo_green_light)
         buildSnackBar(color, msg, view)
@@ -43,6 +52,11 @@ open class BaseActivity: AppCompatActivity() {
     open fun buildErrorSnackBar(msg: String,view: View){
         val color = ContextCompat.getColor(this, android.R.color.holo_red_light)
         buildSnackBar(color, msg, view)
+    }
+
+    open fun buildErrorSnackBar(msg: String,view: View, action: () -> Unit){
+        val color = ContextCompat.getColor(this, android.R.color.holo_red_light)
+        buildSnackBar(color, msg, view,action)
     }
 
     fun showLogoutDialog(listener: () -> Unit) {

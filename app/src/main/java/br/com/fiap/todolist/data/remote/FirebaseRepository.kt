@@ -2,6 +2,7 @@ package br.com.fiap.todolist.data.remote
 
 import br.com.fiap.todolist.data.local.Constantes
 import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -21,10 +22,10 @@ class FirebaseRepository {
         }
     }
 
-    suspend fun requestUpdateListPosition(todoList: List<TodoListModel>) {
-        userId?.let {
+    fun requestUpdateListPosition(todoList: List<TodoListModel>): Task<Void>? {
+        return userId?.let {
             val dataBaseRef = dataBase.child(Constantes.DATA_BASE_NAME).child(it)
-            dataBaseRef.setValue(todoList).await()
+            return dataBaseRef.setValue(todoList)
         }
     }
 
@@ -47,8 +48,10 @@ class FirebaseRepository {
 
     suspend fun editNote(note: TodoListModel) {
         userId?.let {
-            val noteRef = dataBase.child(Constantes.DATA_BASE_NAME).child(userId).child(note.id!!)
-            noteRef.setValue(note).await()
+            note.id?.let {noteId ->
+                val noteRef = dataBase.child(br.com.fiap.todolist.data.local.Constantes.DATA_BASE_NAME).child(it).child(noteId)
+                noteRef.setValue(note).await()
+            }
         }
     }
 

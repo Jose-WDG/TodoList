@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import br.com.fiap.todolist.data.remote.FirebaseRepository
 import br.com.fiap.todolist.databinding.TodolistItemBinding
 import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
 import java.util.Collections
@@ -13,6 +14,7 @@ import java.util.Collections
 class TodoListAdapter(
     private val items: ArrayList<TodoListModel>,
     private val onLongClickListener: OnClickNote,
+    private val moveNoTeCallback: MoveNoTeCallback
 ) :
     RecyclerView.Adapter<TodoListAdapter.TodoListViewHolder>() {
 
@@ -45,6 +47,13 @@ class TodoListAdapter(
     fun onItemMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(items, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
+        FirebaseRepository().requestUpdateListPosition(items)?.addOnCompleteListener {
+            if (!it.isSuccessful){
+                moveNoTeCallback.onErrorMoveNotePosition {
+                    onItemMove(fromPosition,toPosition)
+                }
+            }
+        }
     }
 
     class TodoListViewHolder(
@@ -92,6 +101,12 @@ class TodoListAdapter(
 
     interface OnClickNote {
         fun clickNote(note: TodoListModel)
+
+
+    }
+
+    interface MoveNoTeCallback {
+        fun onErrorMoveNotePosition(action: () -> Unit)
     }
 
     class DragAndDrop(private val adapter: TodoListAdapter) : ItemTouchHelper.SimpleCallback(

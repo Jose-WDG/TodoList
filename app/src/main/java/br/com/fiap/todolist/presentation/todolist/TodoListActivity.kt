@@ -21,10 +21,10 @@ import br.com.fiap.todolist.presentation.todolist.adapter.TodoListAdapter
 import br.com.fiap.todolist.presentation.todolist.model.TodoListModel
 import br.com.fiap.todolist.presentation.utils.makeVisible
 
-class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
+class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote, TodoListAdapter.MoveNoTeCallback {
     private lateinit var binding: ActivityTodoListBinding
     private val viewModel: TodoListViewModel by lazy { initViewModel() }
-    private val todoListAdapter = TodoListAdapter(arrayListOf(), this)
+    private val todoListAdapter = TodoListAdapter(arrayListOf(), this,this)
     private val onActivityResultLauncher: ActivityResultLauncher<Intent> = initOnActivityResult()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,6 +117,10 @@ class TodoListActivity : BaseActivity(), TodoListAdapter.OnClickNote {
             }.setNegativeButton(getString(R.string.finishi)) { _, _ ->
                 viewModel.deleteNote(note.id.toString())
             }.show()
+    }
+
+    override fun onErrorMoveNotePosition(action: () -> Unit) {
+        buildErrorSnackBar("Não foi possível sincronizar as novas posições dos itens.",binding.root.rootView,action)
     }
 
     override fun onDestroy() {
